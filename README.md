@@ -20,7 +20,7 @@ Before running the script, you must first do some preparations.
 Type below code, download xSwipe from github
 
     $ cd ~
-    $ wget https://github.com/iberianpig/xSwipe/archive/master.zip
+    $ wget https://github.com/guilhermemtr/xSwipe/archive/master.zip
     $ unzip master.zip
 
 ### 2. Install X11::GUITest
