@@ -120,9 +120,8 @@ Please let me know if you have any questions about this program.
 If you have any suggestions feel free to send me a message.
 
 #TODO
+* Add configuration files for major environments (gnome, kde, mate, xfce, etc) and a default one.
 * Add pinch detection
-* Modularize event detection (not by initializing everything at the beggining but rather by getting at runtime).
-* Change Swipe<NR> to Swipe and in other place the number of fingers (to be more modular and ease the build of the configuration file)
 * Add support for multiple touch forces, being able to configure it (by the JSON file)
 * Change the project to python or any other language. I don't know almost nothing about perl :s
 * Allow the binding of gestures to commands (not only to shortcut keys)
