@@ -44,10 +44,10 @@ my $edgeSwipeCode = "edgeSwipe";
 
 
 #default basic distance
-my $baseDist = 0.1;
+my $baseDist = 0.3;
 
 #polling interval in milliseconds
-my $pollingInterval = 10;
+my $pollingInterval = 20;
 
 #default configuration file name
 my $confFileName = "default.json";
