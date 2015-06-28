@@ -23,7 +23,7 @@ my $forceThreshold = 70;
 
 
 #window for handling distinct events
-my $eventTimeWindow = 0.15;
+my $eventTimeWindow = 0.200;
 
 #list of arguments
 my $distanceArgument               = "-d";
@@ -33,6 +33,15 @@ my $verboseLevelTwoArgument        = "-vv";
 my $verboseLevelThreeArgument      = "-vvv";
 my $disableWhileTypingArgument     = "--disable-while-typing";
 my $disableTimeAfterTypingArgument = "--disable-time";
+
+
+
+
+my $longPressCode = "longPress";
+my $swipeCode = "swipe";
+my $edgeSwipeCode = "edgeSwipe";
+
+
 
 #default basic distance
 my $baseDist = 0.1;
@@ -78,13 +87,20 @@ my $innerEdgeRight   = 0;
 my $innerEdgeTop     = 0;
 my $innerEdgeBottom  = 0;
 
+#touchpad axys
 my $xAxis = "x";
 my $yAxis = "y";
 my $zAxis = "z";
 
+#movement orientation
 my $positiveMovement = "+";
 my $negativeMovement = "-";
 
+
+#touchpad states
+my $touchpadDefaultState = "0";
+my $touchpadNotEdgeState = "1";
+my $touchpadEdgeState    = "2";
 
 #CurrentPath
 my $script_dir;
@@ -92,6 +108,15 @@ my $conf;
 my @data;
 my $sessionName;
 my @area_setting;
+my $actions;
+
+my $up              = "up";
+my $down            = "down";
+my $left            = "left";
+my $right           = "right";
+my $action          = "action";
+
+my $defaultAction   = "default";
 
 
 #if($verbose == 1) {
@@ -201,98 +226,15 @@ if($verbose == 1) {
 }
 
 ### $sessionName
-
+$actions = $conf->{"$sessionName"};
 
 # session variables (possible actions)
 my @swipe3Right         = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{right});
-my @swipe3Left          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{left});
-my @swipe3Down          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{down});
-my @swipe3Up            = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{up});
-
-my @swipe4Right         = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{light}->{right});
-my @swipe4Left          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{light}->{left});
-my @swipe4Down          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{light}->{down});
-my @swipe4Up            = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{light}->{up});
-
-my @swipe5Right         = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{light}->{right});
-my @swipe5Left          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{light}->{left});
-my @swipe5Down          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{light}->{down});
-my @swipe5Up            = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{light}->{up});
-
-my @edgeSwipe2Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{light}->{right});
-my @edgeSwipe2Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{light}->{left});
-my @edgeSwipe2Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{light}->{down});
-my @edgeSwipe2Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{light}->{up});
-
-my @edgeSwipe3Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{light}->{right});
-my @edgeSwipe3Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{light}->{left});
-my @edgeSwipe3Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{light}->{down});
-my @edgeSwipe3Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{light}->{up});
-
-my @edgeSwipe4Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{light}->{right});
-my @edgeSwipe4Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{light}->{left});
-my @edgeSwipe4Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{light}->{down});
-my @edgeSwipe4Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{light}->{up});
-
-my @edgeSwipe5Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{light}->{right});
-my @edgeSwipe5Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{light}->{left});
-my @edgeSwipe5Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{light}->{down});
-my @edgeSwipe5Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{light}->{up});
-
-my @longPress2          = split $confSplitter, ($conf->{$sessionName}->{swipe2}->{light}->{press});
-my @longPress3          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{press});
-my @longPress4          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{light}->{press});
-my @longPress5          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{light}->{press});
-
-
 
 
 
 
 #definition of actions when force is used
-
-
-my @forceSwipe3Right         = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{forced}->{right});
-my @forceSwipe3Left          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{forced}->{left});
-my @forceSwipe3Down          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{forced}->{down});
-my @forceSwipe3Up            = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{forced}->{up});
-
-my @forceSwipe4Right         = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{forced}->{right});
-my @forceSwipe4Left          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{forced}->{left});
-my @forceSwipe4Down          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{forced}->{down});
-my @forceSwipe4Up            = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{forced}->{up});
-
-my @forceSwipe5Right         = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{forced}->{right});
-my @forceSwipe5Left          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{forced}->{left});
-my @forceSwipe5Down          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{forced}->{down});
-my @forceSwipe5Up            = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{forced}->{up});
-
-my @forceEdgeSwipe2Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{forced}->{right});
-my @forceEdgeSwipe2Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{forced}->{left});
-my @forceEdgeSwipe2Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{forced}->{down});
-my @forceEdgeSwipe2Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe2}->{forced}->{up});
-
-my @forceEdgeSwipe3Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{forced}->{right});
-my @forceEdgeSwipe3Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{forced}->{left});
-my @forceEdgeSwipe3Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{forced}->{down});
-my @forceEdgeSwipe3Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{forced}->{up});
-
-my @forceEdgeSwipe4Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{forced}->{right});
-my @forceEdgeSwipe4Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{forced}->{left});
-my @forceEdgeSwipe4Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{forced}->{down});
-my @forceEdgeSwipe4Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe4}->{forced}->{up});
-
-my @forceEdgeSwipe5Right     = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{forced}->{right});
-my @forceEdgeSwipe5Left      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{forced}->{left});
-my @forceEdgeSwipe5Down      = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{forced}->{down});
-my @forceEdgeSwipe5Up        = split $confSplitter, ($conf->{$sessionName}->{edgeSwipe5}->{forced}->{up});
-
-my @forceLongPress2          = split $confSplitter, ($conf->{$sessionName}->{swipe2}->{forced}->{press});
-my @forceLongPress3          = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{forced}->{press});
-my @forceLongPress4          = split $confSplitter, ($conf->{$sessionName}->{swipe4}->{forced}->{press});
-my @forceLongPress5          = split $confSplitter, ($conf->{$sessionName}->{swipe5}->{forced}->{press});
-
-
 
 
 my @xHist1 = ();                # x coordinate history (1 finger)
@@ -348,28 +290,30 @@ while(my $line = <INFILE>){
 
     if($f == 1){ # 1 finger
         if($touchState == 0){
-            if(($x < $innerEdgeLeft)or($innerEdgeRight < $x)){
-                $touchState = 2;
+            if(($x < $innerEdgeLeft)or($innerEdgeRight < $x)
+                or
+                ($y < $innerEdgeTop)or($y >$innerEdgeBottom)){
+                $touchState = $touchpadEdgeState;
                 &switchTouchPad("Off");
             }else{
-                $touchState = 1;
+                $touchState = $touchpadNotEdgeState;
             }
         }
         cleanHist(2 ,3 ,4 ,5);
-        if ($touchState == 2){
+        if ($touchState == $touchpadEdgeState){
             push @xHist1, $x;
             push @yHist1, $y;
             push @zHist1, $z;
             $axis = getAxis(\@xHist1, \@yHist1, \@zHist1, 2, 0.1);
             if($axis eq $xAxis){
                 $rate = getRate(@xHist1);
-                $touchState = 2;
+                $touchState = $touchpadEdgeState;
             }elsif($axis eq $yAxis){
                 $rate = getRate(@yHist1);
-                $touchState = 2;
+                $touchState = $touchpadEdgeState;
             }elsif($axis eq $zAxis){
                 #$rate = getRate(@zHist1);
-                #touchState = 2;
+                #touchState = $touchpadEdgeState;
                 #print "x axis detected\n";
             }
         }
@@ -378,12 +322,13 @@ while(my $line = <INFILE>){
         if($touchState == 0){
             if(
                 ($x < $innerEdgeLeft) or ($innerEdgeRight  < $x)
-           # or ($y < $innerEdgeTop ) or ($innerEdgeBottom < $y)
+                or
+                ($y < $innerEdgeTop)or($y >$innerEdgeBottom)
             ){
-                $touchState = 2;
+                $touchState = $touchpadEdgeState;
                 ### $touchState
             }else{
-                $touchState = 1;
+                $touchState = $touchpadNotEdgeState;
             }
         }
         cleanHist(1, 3, 4, 5);
@@ -408,11 +353,14 @@ while(my $line = <INFILE>){
 
     }elsif($f == 3){ # 3 fingers
         if($touchState == 0 ){
-            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)){
-                $touchState = 2;
+            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)
+                or
+              ($y < $innerEdgeTop)or($y >$innerEdgeBottom)
+              ){
+                $touchState = $touchpadEdgeState;
                 ### $touchState
             }else{
-                $touchState = 1;
+                $touchState = $touchpadNotEdgeState;
             }
         }
         cleanHist(1, 2, 4, 5);
@@ -437,11 +385,14 @@ while(my $line = <INFILE>){
 
     }elsif($f == 4){ # 4 fingers
         if($touchState == 0 ){
-            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)){
-                $touchState = 2;
+            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)
+                or
+                ($y < $innerEdgeTop)or($y >$innerEdgeBottom)
+            ){
+                $touchState = $touchpadEdgeState;
                 ### $touchState
             }else{
-                $touchState = 1;
+                $touchState = $touchpadNotEdgeState;
             }
         }
         cleanHist(1, 2, 3, 5);
@@ -466,11 +417,14 @@ while(my $line = <INFILE>){
 
     }elsif($f == 5){ # 5 fingers
         if($touchState == 0 ){
-            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)){
-                $touchState = 2;
+            if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)
+                or
+                ($y < $innerEdgeTop)or($y >$innerEdgeBottom)
+            ){
+                $touchState = $touchpadEdgeState;
                 ### $touchState
             }else{
-                $touchState = 1;
+                $touchState = $touchpadNotEdgeState;
             }
         }
         cleanHist(1, 2, 3 ,4);
@@ -496,7 +450,7 @@ while(my $line = <INFILE>){
 
 #detect action
     if ($axis ne 0){
-        @eventString = setEventString($f,$axis,$rate,$touchState, $z);
+        @eventString = setEventString($f,$axis,$rate,$touchState, $z, $actions);
         cleanHist(1, 2, 3, 4, 5);
     }
 
@@ -515,14 +469,8 @@ while(my $line = <INFILE>){
 }#synclient line in
 close(INFILE);
 
-
-
-
-
-
-
-sub getAction{
-    split $confSplitter, ($conf->{$sessionName}->{edgeSwipe3}->{forced}->{right});
+sub getSubActions{
+    return split $confSplitter, (@_[0]);
 }
 
 
@@ -720,305 +668,91 @@ sub cleanHist{
 
 #return @eventString $_[0]
 sub setEventString{
-    my($f, $axis, $rate, $touchState, $force)=@_;
-    if($force <= $forceThreshold) {
-        if($f == 2){ #two fingers
-            if($axis eq $xAxis){
-                if($touchState eq "2"){
-                    if($rate eq $positiveMovement){
-                        print "edge swipe right 2 fingers\n";
-                        return @edgeSwipe2Right;
-                    }elsif($rate eq $negativeMovement){
-                        print "edge swipe left 2 fingers\n";
-                        return @edgeSwipe2Left;
-                    }
-                }
-            }elsif($axis eq $yAxis){
-                if($touchState eq "2"){
-                    if($rate eq $positiveMovement){
-                        print "edge swipe down 2 fingers\n";
-                        return @edgeSwipe2Down;
-                    }elsif($rate eq $negativeMovement){
-                        print "edge swipe up 2 fingers\n";
-                        return @edgeSwipe2Up;
-                    }
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    if($touchState eq "1"){
-                        print "long press with 2 fingers\n";
-                        return @longPress2;
-                    }
-                }
-            }
-        }elsif($f == 3){ #three fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe right 3 fingers\n";
-                        return @edgeSwipe3Right;
-                    }
-                    print "swipe right 3 fingers\n";
-                    return @swipe3Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe left 3 fingers\n";
-                        return @edgeSwipe3Left;
-                    }
-                    print "swipe left 3 fingers\n";
-                    return @swipe3Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe down 3 fingers\n";
-                        return @edgeSwipe3Down;
-                    }
-                    print "swipe down 3 fingers\n";
-                    return @swipe3Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe up 3 fingers\n";
-                        return @edgeSwipe3Up;
-                    }
-                    print "swipe up 3 fingers\n";
-                    return @swipe3Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "long press 3 fingers\n";
-                    return @longPress3;
-                }
-            }
-        }elsif($f == 4){ #four fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe right 4 fingers\n";
-                        return @edgeSwipe4Right;
-                    }
-                    print "swipe right 4 fingers\n";
-                    return @swipe4Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe left 4 fingers\n";
-                        return @edgeSwipe4Left;
-                    }
-                    print "swipe left 4 fingers\n";
-                    return @swipe4Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe down 4 fingers\n";
-                        return @edgeSwipe4Down;
-                    }
-                    print "swipe down 4 fingers\n";
-                    return @swipe4Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe up 4 fingers\n";
-                        return @edgeSwipe4Up;
-                    }
-                    print "swipe up 4 fingers\n";
-                    return @swipe4Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "long press 4 fingers\n";
-                    return @longPress4;
-                }
-            }
-        }elsif($f == 5){ #five fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe right 5 fingers\n";
-                        return @edgeSwipe5Right;
-                    }
-                    print "swipe right 5 fingers\n";
-                    return @swipe5Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe left 5 fingers\n";
-                        return @edgeSwipe5Left;
-                    }
-                    print "swipe left 5 fingers\n";
-                    return @swipe5Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe down 5 fingers\n";
-                        return @edgeSwipe5Down;
-                    }
-                    print "swipe down 5 fingers\n";
-                    return @swipe5Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "edge swipe up 5 fingers\n";
-                        return @edgeSwipe5Up;
-                    }
-                    print "swipe up 5 fingers\n";
-                    return @swipe5Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "long press 5 fingers\n";
-                    return @longPress5;
-                }
-            }
-        }
-    } elsif ($force > $forceThreshold) { # forced touch applied
-        if($f == 2){ #two fingers
-            if($axis eq $xAxis){
-                if($touchState eq "2"){
-                    if($rate eq $positiveMovement){
-                        print "forced edge swipe right 2 fingers\n";
-                        return @forceEdgeSwipe2Right;
-                    }elsif($rate eq $negativeMovement){
-                        print "forced edge swipe left 2 fingers\n";
-                        return @forceEdgeSwipe2Left;
-                    }
-                }
-            }elsif($axis eq $yAxis){
-                if($touchState eq "2"){
-                    if($rate eq $positiveMovement){
-                        print "forced edge swipe down 2 fingers\n";
-                        return @forceEdgeSwipe2Down;
-                    }elsif($rate eq $negativeMovement){
-                        print "forced edge swipe up 2 fingers\n";
-                        return @forceEdgeSwipe2Up;
-                    }
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    if($touchState eq "1"){
-                        print "forced long press with 2 fingers\n";
-                        return @forceLongPress2;
-                    }
-                }
-            }
-        }elsif($f == 3){ #three fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe right 3 fingers\n";
-                        return @forceEdgeSwipe3Right;
-                    }
-                    print "forced swipe right 3 fingers\n";
-                    return @forceSwipe3Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe left 3 fingers\n";
-                        return @forceEdgeSwipe3Left;
-                    }
-                    print "forced swipe left 3 fingers\n";
-                    return @forceSwipe3Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe down 3 fingers\n";
-                        return @forceEdgeSwipe3Down;
-                    }
-                    print "forced swipe down 3 fingers\n";
-                    return @forceSwipe3Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe up 3 fingers\n";
-                        return @forceEdgeSwipe3Up;
-                    }
-                    print "forced swipe up 3 fingers\n";
-                    return @forceSwipe3Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "forced long press 3 fingers\n";
-                    return @forceLongPress3;
-                }
-            }
-        }elsif($f == 4){ #four fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe right 4 fingers\n";
-                        return @forceEdgeSwipe4Right;
-                    }
-                    print "forced swipe right 4 fingers\n";
-                    return @forceSwipe4Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe left 4 fingers\n";
-                        return @forceEdgeSwipe4Left;
-                    }
-                    print "forced swipe left 4 fingers\n";
-                    return @forceSwipe4Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe down 4 fingers\n";
-                        return @forceEdgeSwipe4Down;
-                    }
-                    print "forced swipe down 4 fingers\n";
-                    return @forceSwipe4Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe up 4 fingers\n";
-                        return @forceEdgeSwipe4Up;
-                    }
-                    print "swipe up 4 fingers\n";
-                    return @forceSwipe4Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "forced long press 4 fingers\n";
-                    return @forceLongPress4;
-                }
-            }
-        }elsif($f == 5){ #five fingers
-            if($axis eq $xAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe right 5 fingers\n";
-                        return @forceEdgeSwipe5Right;
-                    }
-                    print "forced swipe right 5 fingers\n";
-                    return @forceSwipe5Right;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe left 5 fingers\n";
-                        return @forceEdgeSwipe5Left;
-                    }
-                    print "forced swipe left 5 fingers\n";
-                    return @forceSwipe5Left;
-                }
-            }elsif($axis eq $yAxis){
-                if($rate eq $positiveMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe down 5 fingers\n";
-                        return @forceEdgeSwipe5Down;
-                    }
-                    print "forced swipe down 5 fingers\n";
-                    return @forceSwipe5Down;
-                }elsif($rate eq $negativeMovement){
-                    if($touchState eq "2"){
-                        print "forced edge swipe up 5 fingers\n";
-                        return @forceEdgeSwipe5Up;
-                    }
-                    print "forced swipe up 5 fingers\n";
-                    return @forceSwipe5Up;
-                }
-            }elsif($axis eq $zAxis){
-                if($rate eq "0"){
-                    print "forced long press 5 fingers\n";
-                    return @forceLongPress5;
-                }
-            }
-        }
+    my($f, $axis, $rate, $touchState, $force, $actions)=@_;
+    my $curr = $actions;
+
+    #does not have a supported desktop version
+    if(!(defined $curr)) {
+        return $defaultAction;
     }
-    return "default";
+    
+    if($force <= $forceThreshold) {
+        print "light ";
+        $curr = $curr->{"light"};
+    } else {
+        print "forced ";
+        $curr = $curr->{"forced"};
+    }
+
+    $curr = $curr->{"$f"};
+    print "$f fingers ";
+
+    if($f < 0) {
+        print "\nGot negative number of fingers detected.\n";
+        return $defaultAction;
+    }
+
+    #does not support that number of fingers (not configured)
+    if(!(defined $curr)) {
+        print "\n No configuration for the selected number of fingers\n";
+        return $defaultAction;
+    }
+
+    if($touchState eq $touchpadEdgeState) {
+        print "$edgeSwipeCode ";
+        $curr = $curr->{"$edgeSwipeCode"};
+    } elsif ($touchState eq $touchpadNotEdgeState) {
+        print "$swipeCode ";
+        $curr = $curr->{"$swipeCode"};
+    } elsif($touchState eq $touchpadDefaultState) {
+        print "$longPressCode ";
+        $curr = $curr->{"$longPressCode"};
+        #long press does not have a direction
+        if(!(defined $curr)) {
+            print "\n No configuration for the current touch state\n";
+            return $defaultAction;
+        }
+        
+        return getSubActions($curr->{"$action"});
+    } else {
+        print "\nOperation not supported\n";
+        return $defaultAction;
+    }
+
+    #does not support the current touchpad state(not configured)
+    if(!(defined $curr)) {
+        print "\n No configuration for the current touch state\n";
+        return $defaultAction;
+    }
+
+    if($axis eq $xAxis) {
+        if($rate eq $positiveMovement){
+            print "right\n";
+            $curr = $curr->{"$right"};
+         }elsif($rate eq $negativeMovement){
+            print "left\n";
+            $curr = $curr->{"$left"};
+        }
+    } elsif($axis eq $yAxis) {
+        if($rate eq $positiveMovement){
+            print "down\n";
+            $curr = $curr->{"$down"};
+         }elsif($rate eq $negativeMovement){
+            print "up\n";
+            $curr = $curr->{"$up"};
+        }
+    } elsif ($axis eq $zAxis) {
+        print "z axis operations not totally supported\n";
+        return $defaultAction;
+    }
+
+    #does not support the current touchpad state(not configured)
+    if(!(defined $curr)) {
+        print "\n No configuration for the selected axis\n";
+        return $defaultAction;
+    }
+
+    return getSubActions($curr->{"$action"});
 }
 
 

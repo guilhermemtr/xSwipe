@@ -1,4 +1,4 @@
-xSwipe
+# xSwipe
 
 xSwipe is multitouch gesture recognizer.
 This script make your linux PC able to recognize swipes like a Macbook.
@@ -127,4 +127,6 @@ If you have any suggestions feel free to send me a message.
 * Change the project to python or any other language. I don't know almost nothing about perl :s
 * Allow the binding of gestures to commands (not only to shortcut keys)
 * Add debug commands (to show whenever an event is detected)
+* Add press detection (and distinguish from force touches)
+
 
