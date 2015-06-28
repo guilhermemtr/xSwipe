@@ -115,8 +115,10 @@ my $down            = "down";
 my $left            = "left";
 my $right           = "right";
 my $action          = "action";
+my $pressCode       = "press";
 
 my $defaultAction   = "default";
+
 
 
 #if($verbose == 1) {
@@ -450,7 +452,7 @@ while(my $line = <INFILE>){
 
 #detect action
     if ($axis ne 0){
-        @eventString = setEventString($f,$axis,$rate,$touchState, $z, $actions);
+        @eventString = setEventString($f,$axis,$rate,$touchState, $z, $l, $actions);
         cleanHist(1, 2, 3, 4, 5);
     }
 
@@ -668,20 +670,12 @@ sub cleanHist{
 
 #return @eventString $_[0]
 sub setEventString{
-    my($f, $axis, $rate, $touchState, $force, $actions)=@_;
+    my($f, $axis, $rate, $touchState, $force, $pressed, $actions)=@_;
     my $curr = $actions;
 
     #does not have a supported desktop version
     if(!(defined $curr)) {
         return $defaultAction;
-    }
-    
-    if($force <= $forceThreshold) {
-        print "light ";
-        $curr = $curr->{"light"};
-    } else {
-        print "forced ";
-        $curr = $curr->{"forced"};
     }
 
     $curr = $curr->{"$f"};
@@ -698,6 +692,13 @@ sub setEventString{
         return $defaultAction;
     }
 
+    if($pressed == "1") {
+        print " pressed\n";
+        $curr = $curr->{"$pressCode"};
+        cleanHist(1, 2, 3, 4, 5);
+        return getSubActions($curr->{"$action"});
+    }
+
     if($touchState eq $touchpadEdgeState) {
         print "$edgeSwipeCode ";
         $curr = $curr->{"$edgeSwipeCode"};
@@ -712,7 +713,7 @@ sub setEventString{
             print "\n No configuration for the current touch state\n";
             return $defaultAction;
         }
-        
+        cleanHist(1, 2, 3, 4, 5);
         return getSubActions($curr->{"$action"});
     } else {
         print "\nOperation not supported\n";
@@ -722,6 +723,20 @@ sub setEventString{
     #does not support the current touchpad state(not configured)
     if(!(defined $curr)) {
         print "\n No configuration for the current touch state\n";
+        return $defaultAction;
+    }
+
+    if($force <= $forceThreshold) {
+        print "light ";
+        $curr = $curr->{"light"};
+    } else {
+        print "forced ";
+        $curr = $curr->{"forced"};
+    }
+
+    #does not support the multiple forces (not configured)
+    if(!(defined $curr)) {
+        print "\n No configuration for force detection\n";
         return $defaultAction;
     }
 

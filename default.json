@@ -1,11 +1,11 @@
 {
     "cinnamon": 
     {
-        "light":
+        "1":
         {
-            "1":
+            "swipe":
             {
-                "swipe":
+                "light":
                 {
                     "up":
                     {
@@ -24,7 +24,7 @@
                         "action" : "default"
                     }
                 },
-                "edgeSwipe":
+                "forced":
                 {
                     "up":
                     {
@@ -42,15 +42,11 @@
                     {
                         "action" : "default"
                     }
-                },
-                "longPress":
-                {
-                    "action" : "default"
                 }
             },
-            "2":
+            "edgeSwipe":
             {
-                "swipe":
+                "light":
                 {
                     "up":
                     {
@@ -69,7 +65,81 @@
                         "action" : "default"
                     }
                 },
-                "edgeSwipe":
+                "forced":
+                {
+                    "up":
+                    {
+                        "action" : "default"
+                    },
+                    "down":
+                    {
+                        "action" : "default"
+                    },
+                    "right":
+                    {
+                        "action" : "default"
+                    },
+                    "left":
+                    {
+                        "action" : "default"
+                    }
+                }
+            },
+            "longPress":
+            {
+                "action" : "default"
+            },
+            "press":
+            {
+                "action" : "default"
+            }
+        },
+        "2":
+        {
+            "swipe":
+            {
+                "light":
+                {
+                    "up":
+                    {
+                        "action" : "default"
+                    },
+                    "down":
+                    {
+                        "action" : "default"
+                    },
+                    "right":
+                    {
+                        "action" : "default"
+                    },
+                    "left":
+                    {
+                        "action" : "default"
+                    }
+                },
+                "forced":
+                {
+                    "up":
+                    {
+                        "action" : "default"
+                    },
+                    "down":
+                    {
+                        "action" : "default"
+                    },
+                    "right":
+                    {
+                        "action" : "default"
+                    },
+                    "left":
+                    {
+                        "action" : "default"
+                    }
+                }
+            },
+            "edgeSwipe":
+            {
+                "light":
                 {
                     "up":
                     {
@@ -88,216 +158,7 @@
                         "action" : "LSH/LCT/TAB"
                     }
                 },
-                "longPress":
-                {
-                    "action" : "default"
-                }
-            },
-            "3":
-            {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "LCT/LAL/UP"
-                    },
-                    "down":
-                    {
-                        "action" : "LCT/LAL/DOWN"
-                    },
-                    "right":
-                    {
-                        "action" : "LCT/LAL/RIG"
-                    },
-                    "left":
-                    {
-                        "action" : "LCT/LAL/LEF"
-                    }
-                },
-                "edgeSwipe":
-                {
-                    "up":
-                    {
-                        "action" : "LCT/LAL/UP"
-                    },
-                    "down":
-                    {
-                        "action" : "LCT/LAL/DOWN"
-                    },
-                    "right":
-                    {
-                        "action" : "LCT/LAL/RIG"
-                    },
-                    "left":
-                    {
-                        "action" : "LCT/LAL/LEF"
-                    }
-                },
-                "longPress":
-                {
-                    "action" : "LAL/F7"
-                }
-            },
-            "4":
-            {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "LSH/LCT/LAL/UP"
-                    },
-                    "down":
-                    {
-                        "action" : "LSH/LCT/LAL/DOWN"
-                    },
-                    "right":
-                    {
-                        "action" : "LSH/LCT/LAL/RIG"
-                    },
-                    "left":
-                    {
-                        "action" : "LSH/LCT/LAL/LEF"
-                    }
-                },
-                "edgeSwipe":
-                {
-                    "up":
-                    {
-                        "action" : "LSH/LCT/f"
-                    },
-                    "down":
-                    {
-                        "action" : "LAL/F4"
-                    },
-                    "right":
-                    {
-                        "action" : "LSH/LCT/g"
-                    },
-                    "left":
-                    {
-                        "action" : "LSH/LCT/g"
-                    }
-                },
-                "longPress":
-                {
-                    "action" : "LAL/F8"
-                }
-            },
-            "5":
-            {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "LSH/LCT/LAL/s"
-                    },
-                    "down":
-                    {
-                        "action" : "LSH/LCT/LAL/s"
-                    },
-                    "right":
-                    {
-                        "action" : "LCT/LAL/9"
-                    },
-                    "left":
-                    {
-                        "action" : "LCT/LAL/1"
-                    }
-                },
-                "edgeSwipe":
-                {
-                    "up":
-                    {
-                        "action" : "LSH/LCT/LAL/s"
-                    },
-                    "down":
-                    {
-                        "action" : "LSH/LCT/LAL/s"
-                    },
-                    "right":
-                    {
-                        "action" : "LCT/LAL/9"
-                    },
-                    "left":
-                    {
-                        "action" : "LCT/LAL/1"
-                    }
-                },
-                "longPress":
-                {
-                    "action" : "default"
-                }
-            }
-        },
-        "forced":
-        {
-            "1":
-            {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "default"
-                    },
-                    "down":
-                    {
-                        "action" : "default"
-                    },
-                    "right":
-                    {
-                        "action" : "default"
-                    },
-                    "left":
-                    {
-                        "action" : "default"
-                    }
-                },
-                "edgeSwipe":
-                {
-                    "up":
-                    {
-                        "action" : "default"
-                    },
-                    "down":
-                    {
-                        "action" : "default"
-                    },
-                    "right":
-                    {
-                        "action" : "default"
-                    },
-                    "left":
-                    {
-                        "action" : "default"
-                    }
-                },
-                "longPress":
-                {
-                    "action" : "default"
-                }
-            },
-            "2":
-            {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "default"
-                    },
-                    "down":
-                    {
-                        "action" : "default"
-                    },
-                    "right":
-                    {
-                        "action" : "default"
-                    },
-                    "left":
-                    {
-                        "action" : "default"
-                    }
-                },
-                "edgeSwipe":
+                "forced":
                 {
                     "up":
                     {
@@ -315,34 +176,22 @@
                     {
                         "action" : "LSH/LCT/TAB"
                     }
-                },
-                "longPress":
-                {
-                    "action" : "default"
                 }
             },
-            "3":
+            "longPress":
             {
-                "swipe":
-                {
-                    "up":
-                    {
-                        "action" : "LSH/LCT/LAL/UP"
-                    },
-                    "down":
-                    {
-                        "action" : "LSH/LCT/LAL/DOWN"
-                    },
-                    "right":
-                    {
-                        "action" : "LSH/LCT/LAL/RIG"
-                    },
-                    "left":
-                    {
-                        "action" : "LSH/LCT/LAL/LEF"
-                    }
-                },
-                "edgeSwipe":
+                "action" : "default"
+            },
+            "press":
+            {
+                "action" : "default"
+            }
+        },
+        "3":
+        {
+            "swipe":
+            {
+                "light":
                 {
                     "up":
                     {
@@ -361,14 +210,81 @@
                         "action" : "LCT/LAL/LEF"
                     }
                 },
-                "longPress":
+                "forced":
                 {
-                    "action" : "LAL/F7"
+                    "up":
+                    {
+                        "action" : "LSH/LCT/LAL/UP"
+                    },
+                    "down":
+                    {
+                        "action" : "LSH/LCT/LAL/DOWN"
+                    },
+                    "right":
+                    {
+                        "action" : "LSH/LCT/LAL/RIG"
+                    },
+                    "left":
+                    {
+                        "action" : "LSH/LCT/LAL/LEF"
+                    }
                 }
             },
-            "4":
+            "edgeSwipe":
             {
-                "swipe":
+                "light":
+                {
+                    "up":
+                    {
+                        "action" : "LCT/LAL/UP"
+                    },
+                    "down":
+                    {
+                        "action" : "LCT/LAL/DOWN"
+                    },
+                    "right":
+                    {
+                        "action" : "LCT/LAL/RIG"
+                    },
+                    "left":
+                    {
+                        "action" : "LCT/LAL/LEF"
+                    }
+                },
+                "forced":
+                {
+                    "up":
+                    {
+                        "action" : "LCT/LAL/UP"
+                    },
+                    "down":
+                    {
+                        "action" : "LCT/LAL/DOWN"
+                    },
+                    "right":
+                    {
+                        "action" : "LCT/LAL/RIG"
+                    },
+                    "left":
+                    {
+                        "action" : "LCT/LAL/LEF"
+                    }
+                }
+            },
+            "longPress":
+            {
+                "action" : "LAL/F7"
+            },
+            "press":
+            {
+                "action" : "LSH/LCT/g"
+            }
+        },
+        "4":
+        {
+            "swipe":
+            {
+                "light":
                 {
                     "up":
                     {
@@ -387,7 +303,29 @@
                         "action" : "LSH/LCT/LAL/LEF"
                     }
                 },
-                "edgeSwipe":
+                "forced":
+                {
+                    "up":
+                    {
+                        "action" : "LSH/LCT/LAL/UP"
+                    },
+                    "down":
+                    {
+                        "action" : "LSH/LCT/LAL/DOWN"
+                    },
+                    "right":
+                    {
+                        "action" : "LSH/LCT/LAL/RIG"
+                    },
+                    "left":
+                    {
+                        "action" : "LSH/LCT/LAL/LEF"
+                    }
+                }
+            },
+            "edgeSwipe":
+            {
+                "light":
                 {
                     "up":
                     {
@@ -406,14 +344,40 @@
                         "action" : "LSH/LCT/g"
                     }
                 },
-                "longPress":
+                "forced":
                 {
-                    "action" : "LAL/F8"
+                    "up":
+                    {
+                        "action" : "LSH/LCT/f"
+                    },
+                    "down":
+                    {
+                        "action" : "LAL/F4"
+                    },
+                    "right":
+                    {
+                        "action" : "LSH/LCT/g"
+                    },
+                    "left":
+                    {
+                        "action" : "LSH/LCT/g"
+                    }
                 }
             },
-            "5":
+            "longPress":
             {
-                "swipe":
+                "action" : "LAL/F8"
+            },
+            "press":
+            {
+                "action" : "default"
+            }
+        },
+        "5":
+        {
+            "swipe":
+            {
+                "light":
                 {
                     "up":
                     {
@@ -432,7 +396,7 @@
                         "action" : "LCT/LAL/1"
                     }
                 },
-                "edgeSwipe":
+                "forced":
                 {
                     "up":
                     {
@@ -450,11 +414,56 @@
                     {
                         "action" : "LCT/LAL/1"
                     }
-                },
-                "longPress":
-                {
-                    "action" : "default"
                 }
+            },
+            "edgeSwipe":
+            {
+                "light":
+                {
+                    "up":
+                    {
+                        "action" : "LSH/LCT/LAL/s"
+                    },
+                    "down":
+                    {
+                        "action" : "LSH/LCT/LAL/s"
+                    },
+                    "right":
+                    {
+                        "action" : "LCT/LAL/9"
+                    },
+                    "left":
+                    {
+                        "action" : "LCT/LAL/1"
+                    }
+                },
+                "forced":
+                {
+                    "up":
+                    {
+                        "action" : "LSH/LCT/LAL/s"
+                    },
+                    "down":
+                    {
+                        "action" : "LSH/LCT/LAL/s"
+                    },
+                    "right":
+                    {
+                        "action" : "LCT/LAL/9"
+                    },
+                    "left":
+                    {
+                        "action" : "LCT/LAL/1"
+                    }
+                }
+            },
+            "longPress":
+            {
+                "action" : "default"
+            },
+            "press":
+            {
+                "action" : "default"
             }
         }
     }
