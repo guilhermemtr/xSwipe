@@ -1,0 +1,147 @@
+{
+    "cinnamon": 
+    {
+        "swipe2":
+        {
+            "light":
+            {
+                "press" : "default"
+            },
+            "forced":
+            {
+                "press" : "default"
+            }
+        },
+
+        "swipe3":
+        {
+            "light":
+            {
+                "right" :  "LCT/LAL/RIG",
+                "left"  :  "LCT/LAL/LEF",
+                "down"  :  "LCT/LAL/DOWN",
+                "up"    :  "LCT/LAL/UP",
+                "press" :  "LAL/F7"
+            },
+            "forced":
+            {
+                "right"   :  "LSH/LCT/LAL/RIG",
+                "left"    :  "LSH/LCT/LAL/LEF",
+                "down"    :  "LSH/LCT/LAL/DOWN",
+                "up"      :  "LSH/LCT/LAL/UP",
+                "press"   :  "LAL/F8"
+            }
+        },
+
+        "swipe4":
+        {
+            "light" :
+            {
+                "right"   :  "LSH/LCT/LAL/RIG",
+                "left"    :  "LSH/LCT/LAL/LEF",
+                "down"    :  "LSH/LCT/LAL/DOWN",
+                "up"      :  "LSH/LCT/LAL/UP",
+                "press"   :  "LAL/F8"
+            },
+            "forced" :
+            {
+                "right"   :  "LSH/LCT/LAL/RIG",
+                "left"    :  "LSH/LCT/LAL/LEF",
+                "down"    :  "LSH/LCT/LAL/DOWN",
+                "up"      :  "LSH/LCT/LAL/UP",
+                "press"   :  "LAL/F8"
+            }
+            
+        },
+
+        "swipe5":
+        {
+            "light":
+            {
+                "right"   :  "LCT/LAL/RIG",
+                "left"    :  "LCT/LAL/LEF",
+                "down"    :  "LCT/LAL/DOWN",
+                "up"      :  "LCT/LAL/UP",
+                "press"   :  "LAL/F7"
+            },
+            "forced":
+            {
+                "right"   :  "LCT/LAL/RIG",
+                "left"    :  "LCT/LAL/LEF",
+                "down"    :  "LCT/LAL/DOWN",
+                "up"      :  "LCT/LAL/UP",
+                "press"   :  "LAL/F7"
+            }
+        },
+
+        "edgeSwipe2":
+        {
+            "light" :
+            {
+                "right"   :  "LCT/TAB",
+                "left"    :  "LSH/LCT/TAB",
+                "up"      :  "LCT/TAB",
+                "down"    :  "LSH/LCT/TAB"
+            },
+            "forced" :{
+                "right"   :  "LCT/TAB",
+                "left"    :  "LSH/LCT/TAB",
+                "up"      :  "LCT/TAB",
+                "down"    :  "LSH/LCT/TAB"
+            }
+        },
+
+        "edgeSwipe3":
+        {
+            "light":
+            {
+                "right"   :  "LAL/F4",
+                "left"    :  "LCT/LAL/t",
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t"
+            },
+            "forced" :
+            {
+                "right"   :  "LAL/F4",
+                "left"    :  "LCT/LAL/t",
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t"
+            }
+        },
+
+        "edgeSwipe4":
+        {
+            "light":
+            {
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t",
+                "right"    :  "LAL/F4",
+                "left"      :  "LCT/LAL/t"
+            },
+            "forced" :
+            {
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t",
+                "right"    :  "LAL/F4",
+                "left"      :  "LCT/LAL/t"
+            }
+        },
+        "edgeSwipe5":
+        {
+            "light":
+            {
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t",
+                "right"    :  "LAL/F4",
+                "left"      :  "LCT/LAL/t"
+            },
+            "forced" :
+            {
+                "down"    :  "LAL/F4",
+                "up"      :  "LCT/LAL/t",
+                "right"    :  "LAL/F4",
+                "left"      :  "LCT/LAL/t"
+            }
+        }
+    }
+}

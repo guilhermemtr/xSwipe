@@ -2,6 +2,11 @@ xSwipe
 ======================
 xSwipe is multitouch gesture recognizer.
 This script make your linux PC able to recognize swipes like a Macbook.
+In this version, a software force detection is used.
+Now you can have multiple different gestures, depending on the force you use.
+For now, only light force and heavy forces are supported.
+
+The force is calculated by the area of touch of each of your fingers on the touchpad, producing a z coordinate (that is used as force).
 
 ## Usage
 
@@ -9,13 +14,14 @@ Before running the script, you must first do some preparations.
 
   1. Download xSwipe
   2. Install X11::GUITest
-  3. Enable SHMConfig
+  3. Install JSON::Parse
+  4. Enable SHMConfig
 
 ### 1. Download xSwipe
 Type below code, download xSwipe from github
 
     $ cd ~
-    $ wget https://github.com/iberianpig/xSwipe/archive/master.zip
+    $ wget https://github.com/guilhermemtr/xSwipe/archive/master.zip
     $ unzip master.zip
 
 ### 2. Install X11::GUITest
@@ -92,15 +98,15 @@ Additionally, some gestures are avilable.
       Natural scroll like Macbook, use "/nScroll/eventKey.cfg".
 
 ## Customize
+For this version, this tutorial might be outdated. However you can always use the given example. I will publish more examples and create a wiki page with the same objective soon.
 You can customize the settings for gestues to edit eventKey.cfg.
 Please check this article, ["How to customize gesture"](https://github.com/iberianpig/xSwipe/wiki/Customize-eventKey.cfg).
 
 ### Bindable gestures
 * 3/4/5 fingers swipe
 * 2/3/4/5 fingers long-press
-* 2/3/4 fingers edge-swipe
-    - *2fingers edge-swipe*: only swipe-left/right from right/left edge
-    - *3fingers edge-swipe*: only swipe-down from top egde
+* 2/3/4/5 fingers edge-swipe
+* For each of the presented bindable gestures, you can select what to do in case of a light touch or a heavy one.
 
 ### Example shortcut keys
 * go back/forward on browser (Alt+Left, Alt+Right)
@@ -113,3 +119,15 @@ Please check this article, ["How to customize gesture"](https://github.com/iberi
 * close a window (Alt+F4)
 
 Please let me know if you have any questions about this program.
+If you have any suggestions feel free to send me a message.
+
+#TODO
+* Add pinch detection
+* Modularize event detection (not by initializing everything at the beggining but rather by getting at runtime).
+* Change Swipe<NR> to Swipe and in other place the number of fingers (to be more modular and ease the build of the configuration file)
+* Add support for multiple touch forces, being able to configure it (by the JSON file)
+* Change the project to python or any other language. I don't know almost nothing about perl :s
+* Allow the binding of gestures to commands (not only to shortcut keys)
+* Add debug commands (to show whenever an event is detected)
+
+
