@@ -1,5 +1,5 @@
 xSwipe
-======================
+
 xSwipe is multitouch gesture recognizer.
 This script make your linux PC able to recognize swipes like a Macbook.
 In this version, a software force detection is used.
@@ -77,7 +77,7 @@ To run xSwipe, type below code on terminal.
 
     $ perl ~/xSwipe-master/xSwipe.pl
 
-**Note:You should run xSwipe.pl in same directory as "eventKey.cfg" .**
+**Note:You should run xSwipe.pl in same directory as "default.json" .**
 
 You can use "swipe" with 3 or 4 fingers, they can call an event.
 Additionally, some gestures are avilable.
@@ -94,8 +94,6 @@ Additionally, some gestures are avilable.
       *INTERVAL* is how often synclient monitor changes to the touchpad state.
       Default value is 10(ms).
       Set 50ms as monitoring-span. (e.g.,`$ perl xSwipe.pl -m 50`)
-*   `-n` :
-      Natural scroll like Macbook, use "/nScroll/eventKey.cfg".
 
 ## Customize
 For this version, this tutorial might be outdated. However you can always use the given example. I will publish more examples and create a wiki page with the same objective soon.
@@ -129,5 +127,4 @@ If you have any suggestions feel free to send me a message.
 * Change the project to python or any other language. I don't know almost nothing about perl :s
 * Allow the binding of gestures to commands (not only to shortcut keys)
 * Add debug commands (to show whenever an event is detected)
-
 
