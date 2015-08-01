@@ -120,12 +120,9 @@ Please let me know if you have any questions about this program.
 If you have any suggestions feel free to send me a message.
 
 #TODO
-* Add configuration files for major environments (gnome, kde, mate, xfce, etc) and a default one.
-* Add pinch detection
-* Add support for multiple touch forces, being able to configure it (by the JSON file)
-* Change the project to python or any other language. I don't know almost nothing about perl :s
-* Allow the binding of gestures to commands (not only to shortcut keys)
-* Add debug commands (to show whenever an event is detected)
 * Add press detection (and distinguish from force touches)
+* Add pinch detection
+* Add configuration files for major environments (gnome, kde, mate, xfce, etc) and a default one.
+* Add support for multiple touch forces, being able to configure it (by the JSON file)
 
 
