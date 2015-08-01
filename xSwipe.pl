@@ -17,13 +17,29 @@ use JSON::Parse 'json_file_to_perl';
 #use Smart::Comments;
 
 
+
+my $lastTime = 0;             # time monitor for TouchPad event reset
+my $eventTime = 0;            # ensure enough time has passed between events
+my $eventString = "default";  # the event to execute
+my $centerTouchPad = 3000;
+my $openSt         = 1000;    # start of open pinch
+my $openEn         = 500;     # end of open pinch
+my $closeSt        = 1000;    # start of close pinch
+my $closeEn        = 1000;    # end of close pinch
+
+
+
+
+
+
+
 my $confSplitter = "/";
 
 my $forceThreshold = 70;
 
 
 #window for handling distinct events
-my $eventTimeWindow = 0.200;
+my $eventTimeWindow = 0.500;
 
 #list of arguments
 my $distanceArgument               = "-d";
@@ -44,7 +60,7 @@ my $edgeSwipeCode = "edgeSwipe";
 
 
 #default basic distance
-my $baseDist = 0.3;
+my $baseDist = 0.2;
 
 #polling interval in milliseconds
 my $pollingInterval = 20;
@@ -78,8 +94,8 @@ my $touchpadWidth    = 0;
 my $touchpadDepth    = 500;
 
 #minimum threshold for z is hardcoded because depth is too
-my $xMinThreshold    = 0;
-my $yMinThreshold    = 0;
+my $xMinThreshold    = 10;
+my $yMinThreshold    = 10;
 my $zMinThreshold    = 20;
 
 my $innerEdgeLeft    = 0;
@@ -110,6 +126,8 @@ my $sessionName;
 my @area_setting;
 my $actions;
 
+
+my $pinchConfig     = "detectPinch";
 my $up              = "up";
 my $down            = "down";
 my $left            = "left";
@@ -124,6 +142,9 @@ my $defaultAction   = "default";
 my $invalidType     = -1;
 my $shortcut        = 1;
 my $script          = 2;
+
+
+my $detectPinch     = 0;
 
 
 
@@ -185,8 +206,10 @@ open (area_setting, "synclient -l | grep Edge | grep -v -e Area -e Motion -e Scr
 close(fileHundle);
 
 &setupTouchpadEdges();
-&setupThresholds();
 &setupEdges();
+
+&setupTouchpadSize();
+&setupThresholds();
 
 
 
@@ -235,6 +258,7 @@ if($verbose == 1) {
 
 ### $sessionName
 $actions = $conf->{"$sessionName"};
+$detectPinch = $conf->{"$pinchConfig"};
 
 # session variables (possible actions)
 my @swipe3Right         = split $confSplitter, ($conf->{$sessionName}->{swipe3}->{light}->{right});
@@ -328,7 +352,7 @@ while(my $line = <INFILE>){
             }
         }
 
-    }elsif($f == 2){ # 2 fingers
+    }elsif($f == 2 and $detectPinch == 0){ # 2 fingers
         if($touchState == 0){
             if(
                 ($x < $innerEdgeLeft) or ($innerEdgeRight  < $x)
@@ -361,6 +385,59 @@ while(my $line = <INFILE>){
             }
         }
 
+    }elsif($f == 2 and $detectPinch == 1){
+        #Pinch not working
+
+        # accept 1 or 2 finger entries as part of pinch section
+        cleanHist(1, 3, 4, 5);
+
+        push @xHist2, $x;
+        push @yHist2, $y;
+
+        # wide to narrow detected, now search for enough 'wiggle'
+        my $tenX = 0;
+        my $tenY = 0;
+        for my $each( @xHist2[40..49] ){ 
+            $tenX += $each 
+        }
+        for my $each( @yHist2[40..49] ){
+            $tenY += $each
+        }
+            
+        $tenX = $tenX / 10;
+        $tenY = $tenY / 10;
+        my $diffX = 0;
+        my $diffY = 0;
+        for my $each( @xHist2[40..49] ){
+            $diffX += abs( $each - $tenX )
+        }
+            
+        for my $each( @yHist2[40..49] ){
+            $diffY += abs( $each - $tenY )
+        }
+
+        # ctrl - decrease font size
+        if( ($diffX+$diffY) > 80 ){
+            print "Pinch in\n";
+            @todo[1] = "^({-})"
+        }
+
+        @xHist2 = ();
+        @yHist2 = ();
+        cleanHist(1, 3, 4, 5);
+        
+        #open pinch requires substantially fewer data points
+        
+
+
+        # ctrl + increase font size
+        print "Pinch out\n";
+        @todo[1] = "^({+})";
+
+        @xHist2 = ();
+        @yHist2 = ();
+        cleanHist(1, 3, 4, 5);
+        
     }elsif($f == 3){ # 3 fingers
         if($touchState == 0 ){
             if(($y < $innerEdgeTop)or($innerEdgeBottom < $y)
@@ -458,14 +535,14 @@ while(my $line = <INFILE>){
     }
 
 
-#detect action
+    #detect action
     if ($axis ne 0){
         @todo = setEventString($f,$axis,$rate,$touchState, $z, $l, $actions);
 
         cleanHist(1, 2, 3, 4, 5);
     }
 
-# only process one event per time window
+    # only process one event per time window
     if( @todo[0] != $invalidType ){
         ### ne default
         if( abs($time - $eventTime) > $eventTimeWindow ){
@@ -480,6 +557,13 @@ while(my $line = <INFILE>){
 }#synclient line in
 close(INFILE);
 
+sub getDistance
+{
+  my $arrRef = $_[0];
+  my $val = @$arrRef[0];
+  $val = abs( $val - $centerTouchPad );
+  return($val);
+}#getStrAvg
 
 sub executeEventHandler{
     my $type = @_[0];
