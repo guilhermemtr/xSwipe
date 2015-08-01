@@ -115,9 +115,15 @@ my $down            = "down";
 my $left            = "left";
 my $right           = "right";
 my $action          = "action";
+my $run             = "run";
 my $pressCode       = "press";
 
 my $defaultAction   = "default";
+
+
+my $invalidType     = -1;
+my $shortcut        = 1;
+my $script          = 2;
 
 
 
@@ -265,6 +271,8 @@ my $touchState = 0;             # touchState={0/1/2} 0=notSwiping, 1=Swiping, 2=
 my $lastTime = 0;               # time monitor for TouchPad event reset
 my $eventTime = 0;              # ensure enough time has passed between events
 my @eventString = ("default");  # the event to execute
+
+my @todo = ($invalidType, "default");
 
 
 
@@ -452,30 +460,45 @@ while(my $line = <INFILE>){
 
 #detect action
     if ($axis ne 0){
-        @eventString = setEventString($f,$axis,$rate,$touchState, $z, $l, $actions);
+        @todo = setEventString($f,$axis,$rate,$touchState, $z, $l, $actions);
+
         cleanHist(1, 2, 3, 4, 5);
     }
 
 # only process one event per time window
-    if( $eventString[0] ne "default" ){
+    if( @todo[0] != $invalidType ){
         ### ne default
         if( abs($time - $eventTime) > $eventTimeWindow ){
             ### $time - $eventTime got: $time - $eventTime
             $eventTime = $time;
-            PressKey $_ foreach(@eventString);
-            ReleaseKey $_ foreach(reverse @eventString);
-            ### @eventString
+            #execute the event handler
+            executeEventHandler(@todo);
+
         }# if enough time has passed
         @eventString = ("default");
     }#if non default event
 }#synclient line in
 close(INFILE);
 
-sub getSubActions{
-    return split $confSplitter, (@_[0]);
+
+sub executeEventHandler{
+    my $type = @_[0];
+
+    if($type == $script) {
+        system(@_[1]);
+    } elsif($type == $shortcut) {
+        @eventString = getSubActions(@_[1]);
+        #execute the event handler
+        PressKey $_ foreach(@eventString);
+        ReleaseKey $_ foreach(reverse @eventString);
+        ### @eventString
+    }
 }
 
 
+sub getSubActions{
+    return split $confSplitter, (@_[0]);
+}
 
 ##shows the usage and exits
 sub usage{
@@ -672,10 +695,12 @@ sub cleanHist{
 sub setEventString{
     my($f, $axis, $rate, $touchState, $force, $pressed, $actions)=@_;
     my $curr = $actions;
+    my @ret = ($invalidType, $curr);
+
 
     #does not have a supported desktop version
     if(!(defined $curr)) {
-        return $defaultAction;
+        return @ret;
     }
 
     $curr = $curr->{"$f"};
@@ -683,13 +708,13 @@ sub setEventString{
 
     if($f < 0) {
         print "\nGot negative number of fingers detected.\n";
-        return $defaultAction;
+        return @ret;
     }
 
     #does not support that number of fingers (not configured)
     if(!(defined $curr)) {
         print "\n No configuration for the selected number of fingers\n";
-        return $defaultAction;
+        return @ret;
     }
 
     if($pressed == "1") {
@@ -711,19 +736,19 @@ sub setEventString{
         #long press does not have a direction
         if(!(defined $curr)) {
             print "\n No configuration for the current touch state\n";
-            return $defaultAction;
+            return @ret;
         }
         cleanHist(1, 2, 3, 4, 5);
         return getSubActions($curr->{"$action"});
     } else {
         print "\nOperation not supported\n";
-        return $defaultAction;
+        return @ret;
     }
 
     #does not support the current touchpad state(not configured)
     if(!(defined $curr)) {
         print "\n No configuration for the current touch state\n";
-        return $defaultAction;
+        return @ret;
     }
 
     if($force <= $forceThreshold) {
@@ -737,7 +762,7 @@ sub setEventString{
     #does not support the multiple forces (not configured)
     if(!(defined $curr)) {
         print "\n No configuration for force detection\n";
-        return $defaultAction;
+        return @ret;
     }
 
     if($axis eq $xAxis) {
@@ -758,16 +783,29 @@ sub setEventString{
         }
     } elsif ($axis eq $zAxis) {
         print "z axis operations not totally supported\n";
-        return $defaultAction;
+        return @ret;
     }
 
     #does not support the current touchpad state(not configured)
     if(!(defined $curr)) {
         print "\n No configuration for the selected axis\n";
-        return $defaultAction;
+        return @ret;
     }
 
-    return getSubActions($curr->{"$action"});
+    if((defined $curr->{"$action"})) {
+        $curr = $curr->{"$action"};
+        @ret[0] = $shortcut;
+    } elsif((defined $curr->{"$run"})) {
+        print "\n No Action to run\n";
+        @ret[0] = $script;
+        $curr = $curr->{"$run"};
+    } else {
+        return @ret;
+    }
+
+    @ret[1] = $curr;
+    
+    return @ret;
 }
 
 
