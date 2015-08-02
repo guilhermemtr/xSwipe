@@ -39,7 +39,7 @@ my $forceThreshold = 70;
 
 
 #window for handling distinct events
-my $eventTimeWindow = 0.500;
+my $eventTimeWindow = 0.200;
 
 #list of arguments
 my $distanceArgument               = "-d";
@@ -60,7 +60,7 @@ my $edgeSwipeCode = "edgeSwipe";
 
 
 #default basic distance
-my $baseDist = 0.2;
+my $baseDist = 0.1;
 
 #polling interval in milliseconds
 my $pollingInterval = 20;
@@ -553,6 +553,7 @@ while(my $line = <INFILE>){
 
         }# if enough time has passed
         @eventString = ("default");
+        @todo[0] = $invalidType;
     }#if non default event
 }#synclient line in
 close(INFILE);
